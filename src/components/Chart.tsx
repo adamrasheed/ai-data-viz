@@ -12,7 +12,6 @@ import {
 } from "chart.js";
 import type { Item } from "./types";
 
-// Register Chart.js components
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -22,7 +21,6 @@ ChartJS.register(
   Legend
 );
 
-// Constants
 const TARGET_MODELS = ["gpt-4", "gpt-3.5-turbo", "claude-3"] as const;
 const METRIC_LABELS = [
   "Relevance Score",
@@ -58,22 +56,22 @@ type ChartProps = {
   items?: Item[];
 };
 
-interface ModelMetrics {
+type ModelMetrics = {
   relevance_score: number;
   factual_accuracy: number;
   coherence_score: number;
   response_quality: number;
-}
+};
 
-interface ProcessedModelData {
+type ProcessedModelData = {
   [model: string]: ModelMetrics;
-}
+};
 
-interface NormalizationStats {
+type NormalizationStats = {
   min: number;
   max: number;
   range: number;
-}
+};
 
 // Utility functions
 const calculateNormalizationStats = (items: Item[]): NormalizationStats => {
@@ -161,14 +159,12 @@ const EmptyState: FC<{ message: string }> = ({ message }) => (
 );
 
 const Chart: FC<ChartProps> = ({ items }) => {
-  // Early validation
   if (!items?.length) {
     return <EmptyState message="No data available to display." />;
   }
 
   const modelData = processModelData(items);
 
-  // Filter available models
   const availableModels = TARGET_MODELS.filter((model) => modelData[model]);
 
   if (availableModels.length === 0) {
@@ -177,10 +173,8 @@ const Chart: FC<ChartProps> = ({ items }) => {
     );
   }
 
-  // Calculate normalization stats
   const normStats = calculateNormalizationStats(items);
 
-  // Create chart data
   const chartData = {
     labels: [...METRIC_LABELS],
     datasets: availableModels.map((model) => {
@@ -201,7 +195,6 @@ const Chart: FC<ChartProps> = ({ items }) => {
     }),
   };
 
-  // Chart options
   const options: ChartOptions<"radar"> = {
     responsive: true,
     maintainAspectRatio: false,
