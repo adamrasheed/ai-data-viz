@@ -2,6 +2,8 @@
 
 This project uses chart.js and tanstack table to visualize an uploaded json file of LLM performance metrics
 
+1[screenshot]('/data-viz.png')
+
 ## Local Dev
 
 To run this locally
