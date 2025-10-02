@@ -38,3 +38,9 @@ export const responseSchema = z.object({
 });
 
 export type Response = z.infer<typeof responseSchema>;
+
+export type Dataset = {
+  id: string;
+  label: string;
+  data: Item[];
+};
